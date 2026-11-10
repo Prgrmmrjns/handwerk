@@ -11,3 +11,9 @@ web/node_modules/.tmp/
 *.scaphoid_split.json
 .blender/
 web/dist/
+.android-sdk/
+*.apk
+*.aab
+web/android/local.properties
+web/android/.gradle/
+web/android/**/build/

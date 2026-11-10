@@ -6,6 +6,8 @@ import { defineConfig } from 'vitest/config'
 const root = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  // Relative asset paths so the bundle loads inside Capacitor's WebView
+  base: './',
   plugins: [react()],
   resolve: {
     alias: {

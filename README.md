@@ -111,6 +111,51 @@ blender --background blender-hand/hand_skeleton.blend \
 
 GitHub Actions: `.github/workflows/blender-render.yml` installs Blender 4.2 and uploads PNG artifacts.
 
+## Android app
+
+Handwerk also ships as a **native Android** app via [Capacitor](https://capacitorjs.com/) (`io.github.prgrmmrjns.handwerk`). The Vite/React/three.js viewer in `web/` is packaged with local GLB assets so injury scenes work **offline**. Touch: one-finger orbit, pinch zoom, two-finger pan. On phones the scene sidebar becomes a bottom sheet.
+
+### Install from GitHub Releases
+
+1. Open the latest **[android-latest](https://github.com/Prgrmmrjns/handwerk/releases/tag/android-latest)** release (published from `main` by CI).
+2. Download `Handwerk-debug.apk`.
+3. On your phone, allow install from that source, then open the APK.
+
+Deep links: `handwerk://preset/scaphoid_displaced` or `https://handwerk-ruddy.vercel.app/?preset=scaphoid_screw`.
+
+On-device **offline rule parser** always runs. If the network is up, the app may also call hosted `POST https://handwerk-ruddy.vercel.app/api/parse` and fall back gracefully when unreachable.
+
+### Build the APK yourself
+
+Requirements: Node 20+, JDK 21, Android SDK (platform 35 + build-tools 35).
+
+```bash
+cd web
+npm ci
+npm run android:apk
+# → web/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+Or step by step:
+
+```bash
+npm --prefix web run build
+npx --prefix web cap sync android
+cd web/android && ./gradlew assembleDebug
+```
+
+Open in Android Studio: `npm --prefix web run cap:open`.
+
+CI: `.github/workflows/android.yml` builds the debug APK on push/PR (artifact `handwerk-android-debug`) and publishes `android-latest` on `main`. The web Vercel deploy is unchanged.
+
+Phone UI (Pixel-sized viewport of the Capacitor WebView layout — same CSS/touch shell as the APK):
+
+![Android displaced scaphoid](docs/screenshots/android_scaphoid_displaced.webp)
+
+![Android Herbert screw](docs/screenshots/android_scaphoid_screw.webp)
+
+![Android scenes bottom sheet](docs/screenshots/android_sheet_open.webp)
+
 ## Deploy (Vercel)
 
 Project `handwerk` is linked to this repo (production branch `main`). Preview deployments build from PR branches via `vercel.json` (`web/dist` output + `/api/parse`).

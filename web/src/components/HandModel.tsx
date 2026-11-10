@@ -8,7 +8,8 @@ import type { RenderMode } from '../scene'
 import { InjuryOverlays } from './InjuryOverlays'
 import { applyPoseFromSpec, type PoseBook } from '../lib/poses'
 
-useGLTF.preload('/assets/hand_skeleton.glb')
+const GLB_URL = `${import.meta.env.BASE_URL}assets/hand_skeleton.glb`
+useGLTF.preload(GLB_URL)
 
 function setMaterialMode(
   mat: THREE.Material,
@@ -50,7 +51,7 @@ function setMaterialMode(
 
 export function HandModel({ poses }: { poses: PoseBook }) {
   const group = useRef<THREE.Group>(null)
-  const { scene, animations } = useGLTF('/assets/hand_skeleton.glb')
+  const { scene, animations } = useGLTF(GLB_URL)
   const mixer = useRef<THREE.AnimationMixer | null>(null)
   const action = useRef<THREE.AnimationAction | null>(null)
 

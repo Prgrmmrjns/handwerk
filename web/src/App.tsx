@@ -5,6 +5,7 @@ import { RequestBar } from './components/RequestBar'
 import { Timeline } from './components/Timeline'
 import { readSceneFromLocation } from './scene'
 import { useAppStore } from './lib/store'
+import { bootCapacitor } from './lib/capacitorBoot'
 import './styles/app.css'
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
   useEffect(() => {
     const fromUrl = readSceneFromLocation()
     if (fromUrl) setSpec(fromUrl, 'url')
+    void bootCapacitor()
   }, [setSpec])
 
   return (

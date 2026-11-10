@@ -1,0 +1,90 @@
+name: Android APK
+
+on:
+  push:
+    branches: [main, 'cursor/**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android packages
+        run: |
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" || \
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Install web deps
+        run: npm ci --prefix web
+
+      - name: Web tests (must stay green)
+        run: npm test --prefix web
+
+      - name: Build web + sync Capacitor
+        run: npm run cap:sync --prefix web
+
+      - name: Assemble debug APK
+        working-directory: web/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: handwerk-android-debug
+          path: web/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Prepare release asset
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          mkdir -p release
+          cp web/android/app/build/outputs/apk/debug/app-debug.apk release/Handwerk-debug.apk
+
+      - name: Publish GitHub Release (android-latest)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-latest
+          name: Handwerk Android (debug)
+          body: |
+            Installable **debug** APK for Handwerk (`io.github.prgrmmrjns.handwerk`).
+
+            - Built from `main` @ `${{ github.sha }}`
+            - Sideload: enable “Install unknown apps”, then open the APK
+            - Deep links: `handwerk://preset/scaphoid_displaced` and `https://handwerk-ruddy.vercel.app/?preset=scaphoid_screw`
+            - Offline rule parser runs on-device; hosted `/api/parse` when reachable
+
+            Web: https://handwerk-ruddy.vercel.app/
+          files: release/Handwerk-debug.apk
+          draft: false
+          prerelease: true
+          make_latest: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

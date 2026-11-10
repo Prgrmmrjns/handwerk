@@ -9,6 +9,7 @@ import { framingForSpec } from '../lib/views'
 import type { PoseBook } from '../lib/poses'
 import { BoneLabel } from './BoneLabel'
 import { AnnoProjector, ScreenAnnotations } from './ScreenAnnotations'
+import { isNativeApp } from '../lib/native'
 
 function CameraRig() {
   const view = useAppStore((s) => s.view)
@@ -52,6 +53,21 @@ function CameraRig() {
         makeDefault
         target={framing.target}
         enablePan
+        enableDamping
+        dampingFactor={0.08}
+        rotateSpeed={0.85}
+        zoomSpeed={0.9}
+        panSpeed={0.6}
+        // Phone: one-finger orbit, pinch zoom, two-finger pan
+        touches={{
+          ONE: THREE.TOUCH.ROTATE,
+          TWO: THREE.TOUCH.DOLLY_PAN,
+        }}
+        mouseButtons={{
+          LEFT: THREE.MOUSE.ROTATE,
+          MIDDLE: THREE.MOUSE.DOLLY,
+          RIGHT: THREE.MOUSE.PAN,
+        }}
         minDistance={0.04}
         maxDistance={0.7}
         maxPolarAngle={Math.PI * 0.95}
@@ -82,9 +98,12 @@ function SceneClock() {
 
 export function Viewport() {
   const [poses, setPoses] = useState<PoseBook | null>(null)
+  const native = isNativeApp()
+  // Cap pixel ratio on phones for mid-range GPU headroom
+  const dpr: [number, number] = native ? [1, 1.5] : [1, 2]
 
   useEffect(() => {
-    fetch('/assets/poses.json')
+    fetch(`${import.meta.env.BASE_URL}assets/poses.json`)
       .then((r) => r.json())
       .then(setPoses)
       .catch(() => setPoses({}))
@@ -92,19 +111,26 @@ export function Viewport() {
 
   return (
     <div className="viewport">
-      <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+      <Canvas
+        dpr={dpr}
+        gl={{ antialias: !native, alpha: true, powerPreference: 'high-performance' }}
+        // Prevent browser gesture conflicts with orbit
+        style={{ touchAction: 'none' }}
+      >
         <color attach="background" args={['#0b1220']} />
         <fog attach="fog" args={['#0b1220', 0.35, 0.95]} />
         <ambientLight intensity={0.4} />
-        <directionalLight position={[0.4, 0.6, 0.5]} intensity={1.2} castShadow />
+        <directionalLight position={[0.4, 0.6, 0.5]} intensity={1.2} castShadow={!native} />
         <directionalLight position={[-0.5, 0.2, -0.3]} intensity={0.4} color="#8eb6d8" />
         <Suspense fallback={null}>
           <CameraRig />
           <SceneClock />
           <AnnoProjector />
           {poses && <HandModel poses={poses} />}
-          <ContactShadows position={[0, 0.1, 0]} opacity={0.3} scale={0.4} blur={2.2} far={0.35} />
-          <Environment preset="city" environmentIntensity={0.3} />
+          {!native && (
+            <ContactShadows position={[0, 0.1, 0]} opacity={0.3} scale={0.4} blur={2.2} far={0.35} />
+          )}
+          <Environment preset="city" environmentIntensity={native ? 0.22 : 0.3} />
         </Suspense>
       </Canvas>
       <ScreenAnnotations />

@@ -31,6 +31,8 @@ type AppState = {
   parseNotes: string[]
   captionIndex: number
   showLabels: boolean
+  /** Mobile bottom sheet (scenes / views) open state. */
+  sheetOpen: boolean
   cameraEpoch: number
   setSpec: (spec: SceneSpec, source?: AppState['parseSource'], notes?: string[]) => void
   setRenderMode: (m: RenderMode) => void
@@ -43,6 +45,7 @@ type AppState = {
   setRequestText: (t: string) => void
   jumpToMarker: (name: string) => void
   setShowLabels: (v: boolean) => void
+  setSheetOpen: (v: boolean) => void
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -60,6 +63,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   parseNotes: [],
   captionIndex: 0,
   showLabels: true,
+  sheetOpen: false,
   cameraEpoch: 0,
   setSpec: (spec, source = 'preset', notes = []) => {
     const duration = defaultDuration(spec)
@@ -76,6 +80,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       sceneTime: 0,
       sceneDuration: duration,
       cameraEpoch: get().cameraEpoch + 1,
+      sheetOpen: false,
     })
   },
   setRenderMode: (renderMode) => set({ renderMode }),
@@ -95,6 +100,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (m) set({ frame: m.frame, playing: false, sceneTime: (m.frame - FRAME_START) / FPS })
   },
   setShowLabels: (showLabels) => set({ showLabels }),
+  setSheetOpen: (sheetOpen) => set({ sheetOpen }),
 }))
 
 export function frameToTime(frame: number): number {
