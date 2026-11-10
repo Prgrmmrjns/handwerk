@@ -8,7 +8,9 @@
     "build": "npm --prefix web run build",
     "test": "npm --prefix web run test",
     "lint": "npm --prefix web run lint",
-    "blender:render": "python3 blender/scripts/render_scene.py --help"
+    "blender:render": "python3 blender/scripts/render_scene.py --help",
+    "cap:sync": "npm --prefix web run cap:sync",
+    "android:apk": "npm --prefix web run android:apk"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.111",

@@ -25,7 +25,7 @@ const MOTION_PRESETS: PresetId[] = [
 const VIEWS: ClinicalView[] = ['dorsal', 'palmar', 'radial', 'ulnar', 'scaphoid', 'oblique']
 const MODES: RenderMode[] = ['solid', 'xray', 'transparent']
 
-export function ScenePanel() {
+function PanelBody() {
   const setSpec = useAppStore((s) => s.setSpec)
   const view = useAppStore((s) => s.view)
   const setView = useAppStore((s) => s.setView)
@@ -37,7 +37,7 @@ export function ScenePanel() {
   const spec = useAppStore((s) => s.spec)
 
   return (
-    <aside className="panel">
+    <>
       <header className="brand">
         <div className="brand-mark" aria-hidden />
         <div>
@@ -117,6 +117,40 @@ export function ScenePanel() {
         </div>
         {selected && <p className="muted">Selected: {selected}</p>}
       </div>
-    </aside>
+    </>
+  )
+}
+
+export function ScenePanel() {
+  const sheetOpen = useAppStore((s) => s.sheetOpen)
+  const setSheetOpen = useAppStore((s) => s.setSheetOpen)
+
+  return (
+    <>
+      {/* Desktop / tablet sidebar */}
+      <aside className="panel panel-desktop">
+        <PanelBody />
+      </aside>
+
+      {/* Phone bottom sheet */}
+      <div
+        className={`sheet-backdrop ${sheetOpen ? 'open' : ''}`}
+        onClick={() => setSheetOpen(false)}
+        aria-hidden={!sheetOpen}
+      />
+      <aside
+        id="scene-sheet"
+        className={`panel panel-sheet ${sheetOpen ? 'open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Scenes and views"
+        aria-hidden={!sheetOpen}
+      >
+        <div className="sheet-handle" aria-hidden />
+        <div className="sheet-scroll">
+          <PanelBody />
+        </div>
+      </aside>
+    </>
   )
 }
