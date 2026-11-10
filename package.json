@@ -1,0 +1,21 @@
+{
+  "name": "handwerk",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Interactive 3D hand anatomy & injury animations (Blender → glTF → browser)",
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "test": "npm --prefix web run test",
+    "lint": "npm --prefix web run lint",
+    "blender:render": "python3 blender/scripts/render_scene.py --help"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^4.0.111",
+    "ai": "^7.0.166",
+    "zod": "^4.6.7"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

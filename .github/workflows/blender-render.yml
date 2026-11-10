@@ -1,0 +1,60 @@
+name: Blender render
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'blender/**'
+      - 'scenes/**'
+      - 'blender-hand/hand_skeleton.blend'
+      - '.github/workflows/blender-render.yml'
+  pull_request:
+    paths:
+      - 'blender/**'
+      - 'scenes/**'
+
+jobs:
+  render-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dry-run validate scene specs
+        run: |
+          python3 blender/scripts/render_scene.py --scene scenes/scaphoid_displaced.json --dry-run
+          python3 blender/scripts/render_scene.py --scene scenes/scaphoid_screw.json --dry-run
+          python3 blender/scripts/render_scene.py --scene scenes/fist_then_flex.json --dry-run
+
+      - name: Install Blender 4.2
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y xz-utils curl libx11-6 libxi6 libxxf86vm1 libxfixes3 libxrender1 libgl1 libegl1 libegl-mesa0
+          curl -L -o /tmp/blender.tar.xz \
+            https://ftp.nluug.nl/pub/graphics/blender/release/Blender4.2/blender-4.2.7-linux-x64.tar.xz
+          sudo mkdir -p /opt/blender
+          sudo tar -xJf /tmp/blender.tar.xz -C /opt/blender --strip-components=1
+          echo "/opt/blender" >> "$GITHUB_PATH"
+          /opt/blender/blender --version
+
+      - name: Render example stills
+        run: |
+          mkdir -p artifacts
+          # WORKBENCH is reliable on CPU/headless runners; EEVEE needs more GPU/EGL stack
+          blender --background blender-hand/hand_skeleton.blend \
+            --python blender/scripts/render_scene.py -- \
+            --scene scenes/scaphoid_displaced.json \
+            --out artifacts/scaphoid_displaced.png \
+            --still --engine BLENDER_WORKBENCH
+          blender --background blender-hand/hand_skeleton.blend \
+            --python blender/scripts/render_scene.py -- \
+            --scene scenes/scaphoid_screw.json \
+            --out artifacts/scaphoid_screw.png \
+            --still --engine BLENDER_WORKBENCH
+          ls -la artifacts/
+
+      - name: Upload render artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: blender-renders
+          path: artifacts/

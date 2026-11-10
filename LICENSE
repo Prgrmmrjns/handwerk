@@ -1,0 +1,47 @@
+# Handwerk licensing
+
+## Application code
+Copyright (c) 2026 Jonas Wolber and contributors.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Derived anatomical assets (`blender-hand/`, `web/public/assets/`)
+
+The hand bone meshes are derived from:
+
+- **BodyParts3D** — Database Center for Life Science (DBCLS), Japan  
+  https://dbarchive.biosciencedbc.jp/en/bodyparts3d/  
+  License: **Creative Commons Attribution-ShareAlike 2.1 Japan (CC BY-SA 2.1 JP)**
+
+- **Z-Anatomy** — https://www.z-anatomy.com/  
+  License: **Creative Commons Attribution-ShareAlike (CC BY-SA)**
+
+Derived meshes, the rigged Blender scene, glTF export, stills, and motion
+render are therefore distributed under **CC BY-SA** (share-alike). If you
+remix these assets, you must attribute BodyParts3D and Z-Anatomy and share
+derivatives under a compatible CC BY-SA license.
+
+### Required attribution
+
+> Hand bone geometry derived from BodyParts3D (DBCLS) and Z-Anatomy,  
+> licensed under Creative Commons Attribution-ShareAlike.
+
+The HandRig armature, animation markers, scene-spec tooling, and web
+application code are separate from the anatomical mesh copyright and are
+MIT-licensed as above (except where they embed the CC BY-SA meshes).

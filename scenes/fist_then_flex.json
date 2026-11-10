@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "id": "fist_then_flex",
+  "title": "Fist, then wrist flexion 60°",
+  "caption": "Close to a full fist, then flex the wrist approximately 60°.",
+  "camera": { "view": "radial" },
+  "duration": 6,
+  "keyframes": [
+    { "t": 0, "pose": "rest" },
+    { "t": 2, "pose": "fist" },
+    { "t": 5, "pose": "wflex" }
+  ],
+  "disclaimer": true
+}

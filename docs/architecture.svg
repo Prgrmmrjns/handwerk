@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" role="img" aria-label="Handwerk architecture">
+  <rect width="920" height="420" fill="#0b1220"/>
+  <text x="32" y="42" fill="#e2d3b5" font-family="Georgia, serif" font-size="28">Handwerk architecture</text>
+  <rect x="32" y="70" width="200" height="70" rx="10" fill="#152033" stroke="#3d8fad"/>
+  <text x="48" y="100" fill="#e8eef6" font-family="sans-serif" font-size="14">Natural language</text>
+  <text x="48" y="120" fill="#8fa3b8" font-family="sans-serif" font-size="12">or preset / share URL</text>
+  <path d="M232 105 H300" stroke="#5aa7d4" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="300" y="70" width="220" height="70" rx="10" fill="#152033" stroke="#3d8fad"/>
+  <text x="316" y="100" fill="#e8eef6" font-family="sans-serif" font-size="14">Rules parser (+ optional LLM)</text>
+  <text x="316" y="120" fill="#8fa3b8" font-family="sans-serif" font-size="12">validate · clamp joint limits</text>
+  <path d="M410 140 V180" stroke="#5aa7d4" stroke-width="2"/>
+  <rect x="300" y="180" width="220" height="60" rx="10" fill="#1a2738" stroke="#c4a574"/>
+  <text x="330" y="216" fill="#e2d3b5" font-family="sans-serif" font-size="16">SceneSpec JSON (DSL v1)</text>
+  <path d="M300 210 H160" stroke="#5aa7d4" stroke-width="2"/>
+  <path d="M520 210 H660" stroke="#5aa7d4" stroke-width="2"/>
+  <rect x="40" y="250" width="240" height="120" rx="10" fill="#152033" stroke="#3d8fad"/>
+  <text x="56" y="280" fill="#e8eef6" font-family="sans-serif" font-size="14">Browser (Vite + R3F)</text>
+  <text x="56" y="304" fill="#8fa3b8" font-family="sans-serif" font-size="12">hand_skeleton.glb playback</text>
+  <text x="56" y="324" fill="#8fa3b8" font-family="sans-serif" font-size="12">injury overlays · clinical views</text>
+  <text x="56" y="344" fill="#8fa3b8" font-family="sans-serif" font-size="12">timeline markers · share links</text>
+  <rect x="560" y="250" width="300" height="120" rx="10" fill="#152033" stroke="#3d8fad"/>
+  <text x="576" y="280" fill="#e8eef6" font-family="sans-serif" font-size="14">Blender headless pipeline</text>
+  <text x="576" y="304" fill="#8fa3b8" font-family="sans-serif" font-size="12">same SceneSpec ’ EEVEE/Cycles/Workbench</text>
+  <text x="576" y="324" fill="#8fa3b8" font-family="sans-serif" font-size="12">split_scaphoid.py · render_scene.py</text>
+  <text x="576" y="344" fill="#8fa3b8" font-family="sans-serif" font-size="12">GitHub Actions artifacts (PNG/MP4)</text>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#5aa7d4"/>
+    </marker>
+  </defs>
+</svg>

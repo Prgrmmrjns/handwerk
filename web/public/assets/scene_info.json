@@ -1,0 +1,893 @@
+{
+ "unit_scale": 1.0,
+ "fps": 30,
+ "frames": [
+  1,
+  1351
+ ],
+ "objects": [
+  {
+   "name": "Camera",
+   "type": "CAMERA",
+   "parent": "CamOrbit",
+   "parent_bone": null
+  },
+  {
+   "name": "CamOrbit",
+   "type": "EMPTY",
+   "parent": null,
+   "parent_bone": null
+  },
+  {
+   "name": "CamTarget",
+   "type": "EMPTY",
+   "parent": null,
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_00",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_01",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_02",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_03",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_04",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_05",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_06",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_07",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_08",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_09",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_10",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_11",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_12",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_13",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_14",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_15",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_16",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_17",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Cap_18",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Capitate",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Midcarpal",
+   "verts": 238,
+   "dims_m": [
+    0.0161,
+    0.0173,
+    0.0229
+   ]
+  },
+  {
+   "name": "DistPhalanx_1",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Thumb_IP",
+   "verts": 113,
+   "dims_m": [
+    0.0137,
+    0.0163,
+    0.0237
+   ]
+  },
+  {
+   "name": "DistPhalanx_2",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Index_DIP",
+   "verts": 127,
+   "dims_m": [
+    0.0099,
+    0.0173,
+    0.0138
+   ]
+  },
+  {
+   "name": "DistPhalanx_3",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Middle_DIP",
+   "verts": 98,
+   "dims_m": [
+    0.0093,
+    0.0177,
+    0.0134
+   ]
+  },
+  {
+   "name": "DistPhalanx_4",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Ring_DIP",
+   "verts": 69,
+   "dims_m": [
+    0.0078,
+    0.0156,
+    0.009
+   ]
+  },
+  {
+   "name": "DistPhalanx_5",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Little_DIP",
+   "verts": 98,
+   "dims_m": [
+    0.008,
+    0.0142,
+    0.0127
+   ]
+  },
+  {
+   "name": "Fill",
+   "type": "LIGHT",
+   "parent": "CamOrbit",
+   "parent_bone": null
+  },
+  {
+   "name": "Hamate",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Midcarpal",
+   "verts": 270,
+   "dims_m": [
+    0.0155,
+    0.0233,
+    0.0199
+   ]
+  },
+  {
+   "name": "HandRig",
+   "type": "ARMATURE",
+   "parent": null,
+   "parent_bone": null,
+   "bones": [
+    {
+     "name": "Forearm",
+     "parent": null
+    },
+    {
+     "name": "Wrist_Radiocarpal",
+     "parent": "Forearm"
+    },
+    {
+     "name": "Wrist_Midcarpal",
+     "parent": "Wrist_Radiocarpal"
+    },
+    {
+     "name": "Index_CMC",
+     "parent": "Wrist_Midcarpal"
+    },
+    {
+     "name": "Index_MCP",
+     "parent": "Index_CMC"
+    },
+    {
+     "name": "Index_PIP",
+     "parent": "Index_MCP"
+    },
+    {
+     "name": "Index_DIP",
+     "parent": "Index_PIP"
+    },
+    {
+     "name": "Middle_CMC",
+     "parent": "Wrist_Midcarpal"
+    },
+    {
+     "name": "Middle_MCP",
+     "parent": "Middle_CMC"
+    },
+    {
+     "name": "Middle_PIP",
+     "parent": "Middle_MCP"
+    },
+    {
+     "name": "Middle_DIP",
+     "parent": "Middle_PIP"
+    },
+    {
+     "name": "Ring_CMC",
+     "parent": "Wrist_Midcarpal"
+    },
+    {
+     "name": "Ring_MCP",
+     "parent": "Ring_CMC"
+    },
+    {
+     "name": "Ring_PIP",
+     "parent": "Ring_MCP"
+    },
+    {
+     "name": "Ring_DIP",
+     "parent": "Ring_PIP"
+    },
+    {
+     "name": "Little_CMC",
+     "parent": "Wrist_Midcarpal"
+    },
+    {
+     "name": "Little_MCP",
+     "parent": "Little_CMC"
+    },
+    {
+     "name": "Little_PIP",
+     "parent": "Little_MCP"
+    },
+    {
+     "name": "Little_DIP",
+     "parent": "Little_PIP"
+    },
+    {
+     "name": "Thumb_CMC",
+     "parent": "Wrist_Midcarpal"
+    },
+    {
+     "name": "Thumb_MCP",
+     "parent": "Thumb_CMC"
+    },
+    {
+     "name": "Thumb_IP",
+     "parent": "Thumb_MCP"
+    }
+   ],
+   "constraints": {
+    "Forearm": [],
+    "Wrist_Radiocarpal": [],
+    "Wrist_Midcarpal": [],
+    "Index_CMC": [],
+    "Index_MCP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.566,
+       "max_x": 1.354,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": -0.524,
+       "max_z": 0.524
+      }
+     ]
+    ],
+    "Index_PIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.348,
+       "max_x": 1.571,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Index_DIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.295,
+       "max_x": 1.189,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Middle_CMC": [],
+    "Middle_MCP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.548,
+       "max_x": 1.372,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": -0.524,
+       "max_z": 0.524
+      }
+     ]
+    ],
+    "Middle_PIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.154,
+       "max_x": 1.766,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Middle_DIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.367,
+       "max_x": 1.117,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Ring_CMC": [],
+    "Ring_MCP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.596,
+       "max_x": 1.324,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": -0.524,
+       "max_z": 0.524
+      }
+     ]
+    ],
+    "Ring_PIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.203,
+       "max_x": 1.717,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Ring_DIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.533,
+       "max_x": 0.951,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Little_CMC": [],
+    "Little_MCP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.58,
+       "max_x": 1.34,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": -0.524,
+       "max_z": 0.524
+      }
+     ]
+    ],
+    "Little_PIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.169,
+       "max_x": 1.751,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Little_DIP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.125,
+       "max_x": 1.358,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Thumb_CMC": [],
+    "Thumb_MCP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.277,
+       "max_x": 0.683,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ],
+    "Thumb_IP": [
+     [
+      "LIMIT_ROTATION",
+      {
+       "min_x": -0.135,
+       "max_x": 1.436,
+       "min_y": 0.0,
+       "max_y": 0.0,
+       "min_z": 0.0,
+       "max_z": 0.0
+      }
+     ]
+    ]
+   }
+  },
+  {
+   "name": "Key",
+   "type": "LIGHT",
+   "parent": "CamOrbit",
+   "parent_bone": null
+  },
+  {
+   "name": "Lunate",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Radiocarpal",
+   "verts": 1046,
+   "dims_m": [
+    0.017,
+    0.0165,
+    0.0126
+   ]
+  },
+  {
+   "name": "Metacarpal_1",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Thumb_CMC",
+   "verts": 343,
+   "dims_m": [
+    0.0384,
+    0.0311,
+    0.0381
+   ]
+  },
+  {
+   "name": "Metacarpal_2",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Index_CMC",
+   "verts": 384,
+   "dims_m": [
+    0.0318,
+    0.0264,
+    0.0698
+   ]
+  },
+  {
+   "name": "Metacarpal_3",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Middle_CMC",
+   "verts": 356,
+   "dims_m": [
+    0.0206,
+    0.0311,
+    0.0665
+   ]
+  },
+  {
+   "name": "Metacarpal_4",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Ring_CMC",
+   "verts": 323,
+   "dims_m": [
+    0.0127,
+    0.0269,
+    0.0616
+   ]
+  },
+  {
+   "name": "Metacarpal_5",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Little_CMC",
+   "verts": 258,
+   "dims_m": [
+    0.0207,
+    0.0252,
+    0.0567
+   ]
+  },
+  {
+   "name": "MidPhalanx_2",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Index_PIP",
+   "verts": 159,
+   "dims_m": [
+    0.0147,
+    0.0213,
+    0.0207
+   ]
+  },
+  {
+   "name": "MidPhalanx_3",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Middle_PIP",
+   "verts": 182,
+   "dims_m": [
+    0.0139,
+    0.0236,
+    0.0258
+   ]
+  },
+  {
+   "name": "MidPhalanx_4",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Ring_PIP",
+   "verts": 225,
+   "dims_m": [
+    0.0117,
+    0.025,
+    0.0246
+   ]
+  },
+  {
+   "name": "MidPhalanx_5",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Little_PIP",
+   "verts": 148,
+   "dims_m": [
+    0.0119,
+    0.0171,
+    0.0199
+   ]
+  },
+  {
+   "name": "Pisiform",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Radiocarpal",
+   "verts": 836,
+   "dims_m": [
+    0.0084,
+    0.0103,
+    0.012
+   ]
+  },
+  {
+   "name": "ProxPhalanx_1",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Thumb_MCP",
+   "verts": 166,
+   "dims_m": [
+    0.0208,
+    0.0222,
+    0.0323
+   ]
+  },
+  {
+   "name": "ProxPhalanx_2",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Index_MCP",
+   "verts": 209,
+   "dims_m": [
+    0.0225,
+    0.0233,
+    0.0386
+   ]
+  },
+  {
+   "name": "ProxPhalanx_3",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Middle_MCP",
+   "verts": 222,
+   "dims_m": [
+    0.0187,
+    0.0299,
+    0.0418
+   ]
+  },
+  {
+   "name": "ProxPhalanx_4",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Ring_MCP",
+   "verts": 186,
+   "dims_m": [
+    0.0136,
+    0.0269,
+    0.0401
+   ]
+  },
+  {
+   "name": "ProxPhalanx_5",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Little_MCP",
+   "verts": 282,
+   "dims_m": [
+    0.0146,
+    0.0213,
+    0.0337
+   ]
+  },
+  {
+   "name": "Radius",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Forearm",
+   "verts": 212,
+   "dims_m": [
+    0.0344,
+    0.0376,
+    0.0873
+   ]
+  },
+  {
+   "name": "Rim",
+   "type": "LIGHT",
+   "parent": "CamOrbit",
+   "parent_bone": null
+  },
+  {
+   "name": "Scaphoid",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Radiocarpal",
+   "verts": 197,
+   "dims_m": [
+    0.0242,
+    0.0155,
+    0.0157
+   ]
+  },
+  {
+   "name": "Subtitle",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Title",
+   "type": "FONT",
+   "parent": "Camera",
+   "parent_bone": null
+  },
+  {
+   "name": "Trapezium",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Midcarpal",
+   "verts": 252,
+   "dims_m": [
+    0.0174,
+    0.0168,
+    0.0205
+   ]
+  },
+  {
+   "name": "Trapezoid",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Midcarpal",
+   "verts": 184,
+   "dims_m": [
+    0.0114,
+    0.0153,
+    0.0127
+   ]
+  },
+  {
+   "name": "Triquetrum",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Wrist_Radiocarpal",
+   "verts": 90,
+   "dims_m": [
+    0.0109,
+    0.0154,
+    0.0136
+   ]
+  },
+  {
+   "name": "Ulna",
+   "type": "MESH",
+   "parent": "HandRig",
+   "parent_bone": "Forearm",
+   "verts": 154,
+   "dims_m": [
+    0.0246,
+    0.0348,
+    0.0876
+   ]
+  }
+ ],
+ "markers": [
+  [
+   "Rest (relaxed hand)",
+   1
+  ],
+  [
+   "Fingers straight",
+   61
+  ],
+  [
+   "Full fist",
+   127
+  ],
+  [
+   "Finger spread (abduction)",
+   241
+  ],
+  [
+   "Thumb opposition: index",
+   343
+  ],
+  [
+   "Thumb opposition: middle",
+   397
+  ],
+  [
+   "Thumb opposition: ring",
+   451
+  ],
+  [
+   "Thumb opposition: little",
+   508
+  ],
+  [
+   "Tendon gliding: straight",
+   607
+  ],
+  [
+   "Tendon gliding: hook fist",
+   661
+  ],
+  [
+   "Tendon gliding: full fist",
+   727
+  ],
+  [
+   "Tendon gliding: tabletop",
+   799
+  ],
+  [
+   "Tendon gliding: straight fist",
+   868
+  ],
+  [
+   "Tendon gliding: straight",
+   937
+  ],
+  [
+   "Wrist flexion 80\u00b0",
+   1021
+  ],
+  [
+   "Wrist extension 70\u00b0",
+   1099
+  ],
+  [
+   "Radial deviation 20\u00b0",
+   1195
+  ],
+  [
+   "Ulnar deviation 30\u00b0",
+   1261
+  ],
+  [
+   "Back to rest",
+   1321
+  ]
+ ],
+ "materials": [
+  "Bone",
+  "CaptionAccent",
+  "CaptionText",
+  "Cartilage"
+ ],
+ "images": []
+}
