@@ -31,13 +31,19 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # Default packages include obsolete `tools` (fails: "Failed to find package 'tools'").
+      # Only install packages that still exist on current cmdline-tools.
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
-      - name: Install Android packages
+      - name: Install Android platform & build-tools
         run: |
-          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" || \
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          set -euo pipefail
+          # Match web/android/variables.gradle (compileSdk / targetSdk 36)
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Install web deps
         run: npm ci --prefix web
@@ -62,13 +68,13 @@ jobs:
           if-no-files-found: error
 
       - name: Prepare release asset
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: |
           mkdir -p release
           cp web/android/app/build/outputs/apk/debug/app-debug.apk release/Handwerk-debug.apk
 
       - name: Publish GitHub Release (android-latest)
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: softprops/action-gh-release@v2
         with:
           tag_name: android-latest
