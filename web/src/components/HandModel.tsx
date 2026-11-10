@@ -67,6 +67,13 @@ export function HandModel({ poses }: { poses: PoseBook }) {
   const root = useMemo(() => {
     const clone = scene.clone(true)
     clone.traverse((obj) => {
+      // Hide Blender caption / title meshes baked into the GLB (parented to CamOrbit).
+      // Leaving them visible causes a diagonal smear of 3D text across the viewport.
+      const n = obj.name
+      if (n === 'Title' || n === 'Subtitle' || /^Cap_\d+/.test(n)) {
+        obj.visible = false
+        return
+      }
       if ((obj as THREE.Mesh).isMesh) {
         const mesh = obj as THREE.Mesh
         mesh.castShadow = true
@@ -95,20 +102,29 @@ export function HandModel({ poses }: { poses: PoseBook }) {
     }
   }, [animations, root])
 
-  // Scrub / play baked animation
+  const injuryMode = Boolean(spec.injuries?.length)
+
+  // Scrub / play baked animation (skip when an injury scene owns the clock)
   useEffect(() => {
     if (!action.current || !mixer.current) return
-    const useBaked = !spec.keyframes?.length
-    if (!useBaked) {
+    if (injuryMode || spec.keyframes?.length) {
       action.current.paused = true
+      action.current.time = 0
+      mixer.current.update(0)
+      if (spec.pose) applyPoseFromSpec(root, spec, poses, 0)
       return
     }
     const t = frameToTime(frame)
     action.current.time = t
     mixer.current.update(0)
-  }, [frame, spec.keyframes])
+  }, [frame, spec.keyframes, injuryMode, spec.pose, root, poses, spec])
 
   useFrame((_, dt) => {
+    if (injuryMode) {
+      // Keep rest / preset pose; injury overlays animate via sceneTime
+      if (spec.pose) applyPoseFromSpec(root, spec, poses, 0)
+      return
+    }
     const useBaked = !spec.keyframes?.length
     if (useBaked && playing && action.current && mixer.current) {
       action.current.paused = false
@@ -121,7 +137,6 @@ export function HandModel({ poses }: { poses: PoseBook }) {
         setFrame(next)
       }
     } else if (!useBaked && playing && spec.keyframes) {
-      // keyframe playback driven by frame as time*30 proxy
       const duration =
         spec.duration ?? Math.max(...spec.keyframes.map((k: { t: number }) => k.t), 1)
       const t = frameToTime(frame) % duration

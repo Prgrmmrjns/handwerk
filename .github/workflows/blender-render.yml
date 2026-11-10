@@ -40,17 +40,39 @@ jobs:
       - name: Render example stills
         run: |
           mkdir -p artifacts
+          sudo apt-get install -y -qq python3-pil fonts-dejavu-core
           # WORKBENCH is reliable on CPU/headless runners; EEVEE needs more GPU/EGL stack
-          blender --background blender-hand/hand_skeleton.blend \
-            --python blender/scripts/render_scene.py -- \
-            --scene scenes/scaphoid_displaced.json \
-            --out artifacts/scaphoid_displaced.png \
-            --still --engine BLENDER_WORKBENCH
-          blender --background blender-hand/hand_skeleton.blend \
-            --python blender/scripts/render_scene.py -- \
-            --scene scenes/scaphoid_screw.json \
-            --out artifacts/scaphoid_screw.png \
-            --still --engine BLENDER_WORKBENCH
+          for scene in scaphoid_displaced scaphoid_screw scaphoid_cast distal_radius boxers scapholunate; do
+            blender --background blender-hand/hand_skeleton.blend \
+              --python blender/scripts/render_scene.py -- \
+              --scene "scenes/${scene}.json" \
+              --out "artifacts/${scene}.png" \
+              --still --engine BLENDER_WORKBENCH
+          done
+          # Blender's embedded Python lacks Pillow — composite captions with system Python
+          python3 <<'PY'
+          from PIL import Image, ImageDraw, ImageFont
+          from pathlib import Path
+          import json
+          for p in Path('artifacts').glob('*.png'):
+              spec = json.loads(Path('scenes', p.stem + '.json').read_text())
+              im = Image.open(p).convert('RGBA'); w,h=im.size
+              overlay=Image.new('RGBA',(w,h),(0,0,0,0)); d=ImageDraw.Draw(overlay)
+              band=int(h*0.15); d.rectangle((0,h-band,w,h),fill=(8,12,20,220))
+              ft=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', max(18,w//38))
+              fb=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', max(13,w//52))
+              title=spec.get('title','Handwerk'); cap=spec.get('caption','')
+              d.text((w//2,h-band+12), title, fill=(240,225,190,255), font=ft, anchor='ma')
+              words=cap.split(); lines=[]; cur=[]
+              for word in words:
+                  cur.append(word)
+                  if len(' '.join(cur))>78: lines.append(' '.join(cur)); cur=[]
+              if cur: lines.append(' '.join(cur))
+              for i,line in enumerate(lines[:2]):
+                  d.text((w//2,h-band+40+i*20), line, fill=(180,200,220,255), font=fb, anchor='ma')
+              Image.alpha_composite(im,overlay).convert('RGB').save(p)
+              print('captioned', p)
+          PY
           ls -la artifacts/
 
       - name: Upload render artifacts

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "id": "boxers",
+  "title": "Boxer's fracture (5th metacarpal neck)",
+  "caption": "Apex-dorsal angulation of the fifth metacarpal neck.",
+  "camera": {
+    "view": "dorsal"
+  },
+  "highlights": [
+    "Metacarpal_5"
+  ],
+  "dimOthers": true,
+  "pose": "fist",
+  "injuries": [
+    {
+      "type": "boxers_fracture",
+      "angulationDeg": 40
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "id": "scaphoid_cast",
+  "title": "Scaphoid fracture \u00b7 cast treatment",
+  "caption": "Thumb-spica cast for a stable non-displaced waist fracture.",
+  "camera": {
+    "view": "scaphoid"
+  },
+  "highlights": [
+    "Scaphoid"
+  ],
+  "dimOthers": true,
+  "pose": "rest",
+  "injuries": [
+    {
+      "type": "scaphoid_fracture",
+      "location": "waist",
+      "displaced": false,
+      "displacementMm": 0.4,
+      "fixation": "cast",
+      "healingWeek": 6,
+      "showSnuffbox": true,
+      "showBloodSupply": true,
+      "showFractureLine": true
+    }
+  ]
+}

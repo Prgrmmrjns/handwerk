@@ -2,12 +2,13 @@
   "version": 1,
   "id": "scaphoid_displaced",
   "title": "Displaced scaphoid waist fracture",
-  "caption": "Displacement and instability raise the odds of non-union and AVN. Many displaced waist fractures are treated operatively.",
+  "caption": "Displacement and instability raise the odds of non-union and AVN.",
   "camera": { "view": "scaphoid" },
   "mode": "solid",
   "highlights": ["Scaphoid"],
   "dimOthers": true,
   "pose": "rest",
+  "duration": 12,
   "injuries": [
     {
       "type": "scaphoid_fracture",

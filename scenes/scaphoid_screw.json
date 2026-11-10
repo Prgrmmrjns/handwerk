@@ -7,12 +7,13 @@
   "highlights": ["Scaphoid"],
   "dimOthers": true,
   "pose": "rest",
+  "duration": 12,
   "injuries": [
     {
       "type": "scaphoid_fracture",
       "location": "waist",
       "displaced": true,
-      "displacementMm": 0.8,
+      "displacementMm": 2.0,
       "fixation": "herbert_screw",
       "healingWeek": 8,
       "showSnuffbox": true,
