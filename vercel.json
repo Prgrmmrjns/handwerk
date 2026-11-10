@@ -5,6 +5,7 @@
   "installCommand": "npm install && cd web && npm ci",
   "framework": null,
   "rewrites": [
-    { "source": "/((?!assets/|api/).*)", "destination": "/index.html" }
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/((?!assets/|api/|privacy\\.html|favicon\\.svg).*)", "destination": "/index.html" }
   ]
 }

@@ -14,6 +14,9 @@ web/dist/
 .android-sdk/
 *.apk
 *.aab
+*.jks
+*.keystore
+secrets/
 web/android/local.properties
 web/android/.gradle/
 web/android/**/build/

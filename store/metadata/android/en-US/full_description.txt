@@ -1,0 +1,14 @@
+Handwerk is a small, personal educational app: a Blender-rigged right-hand skeleton you can orbit, X-ray, and scrub through injury scenes — built after Jonas’s own scaphoid waist fracture at Uniklinik Aachen.
+
+What you can explore
+• Displaced and non-displaced scaphoid waist fractures, with snuffbox cue and retrograde blood-supply animation
+• Herbert (headless) screw fixation and thumb-spica cast treatment, with a simple healing timeline
+• Distal radius (Colles-type), boxer’s fracture (5th metacarpal neck), and scapholunate gap
+• Clinical camera presets (dorsal, palmar, radial, ulnar, scaphoid) and solid / X-ray / transparent modes
+• Type a short request (“show a displaced scaphoid with a Herbert screw”) — an on-device rule parser always works; when online, an optional hosted helper may refine the scene
+
+Touch: one-finger orbit, pinch zoom, two-finger pan. Scenes open from a bottom sheet on phones. Assets ship with the app so core scenes work offline.
+
+Not a medical device. Fracture gaps and colours are exaggerated for teaching. Not for diagnosis or treatment decisions. Derived meshes: BodyParts3D / Z-Anatomy (CC BY-SA).
+
+Privacy: no accounts, no ads, no analytics SDK. See https://handwerk-ruddy.vercel.app/privacy

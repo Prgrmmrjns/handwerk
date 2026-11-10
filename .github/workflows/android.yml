@@ -17,6 +17,9 @@ jobs:
   build-apk:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      ANDROID_VERSION_CODE: ${{ github.run_number }}
+      ANDROID_VERSION_NAME: 1.1.${{ github.run_number }}
     steps:
       - uses: actions/checkout@v4
 
@@ -31,8 +34,7 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      # Default packages include obsolete `tools` (fails: "Failed to find package 'tools'").
-      # Only install packages that still exist on current cmdline-tools.
+      # Default packages include obsolete `tools` — only install packages that still exist.
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
@@ -41,7 +43,6 @@ jobs:
       - name: Install Android platform & build-tools
         run: |
           set -euo pipefail
-          # Match web/android/variables.gradle (compileSdk / targetSdk 36)
           yes | sdkmanager --licenses >/dev/null || true
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
@@ -54,43 +55,103 @@ jobs:
       - name: Build web + sync Capacitor
         run: npm run cap:sync --prefix web
 
-      - name: Assemble debug APK
+      - name: Detect release signing secrets
+        id: signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "${ANDROID_KEYSTORE_BASE64:-}" ] && \
+             [ -n "${ANDROID_KEYSTORE_PASSWORD:-}" ] && \
+             [ -n "${ANDROID_KEY_ALIAS:-}" ] && \
+             [ -n "${ANDROID_KEY_PASSWORD:-}" ]; then
+            echo "mode=release" >> "$GITHUB_OUTPUT"
+            echo "Release signing secrets present — will build signed AAB + APK"
+          else
+            echo "mode=debug" >> "$GITHUB_OUTPUT"
+            echo "No release signing secrets — falling back to debug APK (CI stays green)"
+          fi
+
+      - name: Decode upload keystore
+        if: steps.signing.outputs.mode == 'release'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/handwerk-upload.jks"
+          echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/handwerk-upload.jks" >> "$GITHUB_ENV"
+
+      - name: Assemble debug APK (fallback)
+        if: steps.signing.outputs.mode == 'debug'
         working-directory: web/android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
 
-      - name: Upload APK artifact
+      - name: Bundle + assemble signed release
+        if: steps.signing.outputs.mode == 'release'
+        working-directory: web/android
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          ./gradlew bundleRelease assembleRelease --no-daemon
+
+      - name: Upload debug APK artifact
+        if: steps.signing.outputs.mode == 'debug'
         uses: actions/upload-artifact@v4
         with:
           name: handwerk-android-debug
           path: web/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
 
-      - name: Prepare release asset
+      - name: Upload signed release artifacts
+        if: steps.signing.outputs.mode == 'release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: handwerk-android-release
+          path: |
+            web/android/app/build/outputs/bundle/release/app-release.aab
+            web/android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+
+      - name: Prepare GitHub Release assets
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: |
           mkdir -p release
-          cp web/android/app/build/outputs/apk/debug/app-debug.apk release/Handwerk-debug.apk
+          if [ "${{ steps.signing.outputs.mode }}" = "release" ]; then
+            cp web/android/app/build/outputs/bundle/release/app-release.aab release/Handwerk-release.aab
+            cp web/android/app/build/outputs/apk/release/app-release.apk release/Handwerk-release.apk
+            echo "SIGNED=1" >> "$GITHUB_ENV"
+          else
+            cp web/android/app/build/outputs/apk/debug/app-debug.apk release/Handwerk-debug.apk
+            echo "SIGNED=0" >> "$GITHUB_ENV"
+          fi
 
       - name: Publish GitHub Release (android-latest)
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: softprops/action-gh-release@v2
         with:
           tag_name: android-latest
-          name: Handwerk Android (debug)
+          name: Handwerk Android
           body: |
-            Installable **debug** APK for Handwerk (`io.github.prgrmmrjns.handwerk`).
+            Handwerk Android build from `main` @ `${{ github.sha }}`
+            versionName `1.1.${{ github.run_number }}` / versionCode `${{ github.run_number }}`
 
-            - Built from `main` @ `${{ github.sha }}`
-            - Sideload: enable “Install unknown apps”, then open the APK
-            - Deep links: `handwerk://preset/scaphoid_displaced` and `https://handwerk-ruddy.vercel.app/?preset=scaphoid_screw`
-            - Offline rule parser runs on-device; hosted `/api/parse` when reachable
-
-            Web: https://handwerk-ruddy.vercel.app/
-          files: release/Handwerk-debug.apk
+            - **Signed release** when repo secrets `ANDROID_KEYSTORE_*` are set (AAB + APK)
+            - Otherwise **debug APK** fallback so CI stays green
+            - Sideload / Play upload: see `store/README.md`
+            - Privacy: https://handwerk-ruddy.vercel.app/privacy
+          files: release/*
           draft: false
           prerelease: true
           make_latest: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Scrub keystore from runner
+        if: always() && steps.signing.outputs.mode == 'release'
+        run: rm -f "$RUNNER_TEMP/handwerk-upload.jks"
