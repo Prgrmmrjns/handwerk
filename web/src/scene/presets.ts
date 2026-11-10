@@ -181,7 +181,7 @@ export const SCENES = {
     mode: 'solid',
     highlights: ['Metacarpal_5'],
     dimOthers: true,
-    pose: 'fist',
+    pose: 'rest',
     duration: 8,
     injuries: [
       {

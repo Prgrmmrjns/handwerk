@@ -121,7 +121,7 @@ export function HandModel({ poses }: { poses: PoseBook }) {
 
   useFrame((_, dt) => {
     if (injuryMode) {
-      // Keep rest / preset pose; injury overlays animate via sceneTime
+      // Pose once-ish; overlays (e.g. boxers angulation) apply after at priority 1
       if (spec.pose) applyPoseFromSpec(root, spec, poses, 0)
       return
     }

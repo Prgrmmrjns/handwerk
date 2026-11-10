@@ -10,11 +10,12 @@
     "Metacarpal_5"
   ],
   "dimOthers": true,
-  "pose": "fist",
+  "pose": "rest",
   "injuries": [
     {
       "type": "boxers_fracture",
       "angulationDeg": 40
     }
-  ]
+  ],
+  "mode": "solid"
 }

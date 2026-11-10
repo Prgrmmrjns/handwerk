@@ -332,14 +332,15 @@ function ScaphoidFractureViz({
         )}
 
         {injury.fixation === 'cast' && (
-          <mesh scale={[1.2, 1.4, 1.2]} position={[0, 0.002, -0.01]}>
-            <sphereGeometry args={[0.03, 28, 18]} />
+          <mesh scale={[1.35, 1.55, 1.35]} position={[0.002, 0.004, -0.012]}>
+            <sphereGeometry args={[0.032, 28, 18]} />
             <meshStandardMaterial
-              color="#d9c49a"
+              color="#cbb892"
               transparent
-              opacity={0.2 + castPhase * 0.28}
+              opacity={0.28 + castPhase * 0.32}
               depthWrite={false}
               side={THREE.DoubleSide}
+              roughness={0.9}
             />
           </mesh>
         )}
@@ -351,11 +352,13 @@ function ScaphoidFractureViz({
             <sphereGeometry args={[0.004, 16, 12]} />
             <meshBasicMaterial color="#5aa7d4" transparent opacity={0.95} />
           </mesh>
-          <AnnotationLabel anchor={snuff} text="Anatomical snuffbox" side="right" tone="info" />
+          {injury.fixation !== 'cast' && (
+            <AnnotationLabel anchor={snuff} text="Anatomical snuffbox" side="right" tone="info" />
+          )}
         </>
       )}
 
-      {injury.showBloodSupply && (
+      {injury.showBloodSupply && injury.fixation !== 'cast' && (
         <>
           <BloodFlow from={distalVessel} to={proximalPole} active />
           <AnnotationLabel
@@ -371,6 +374,9 @@ function ScaphoidFractureViz({
             tone="warn"
           />
         </>
+      )}
+      {injury.showBloodSupply && injury.fixation === 'cast' && (
+        <BloodFlow from={distalVessel} to={proximalPole} active />
       )}
 
       <AnnotationLabel
@@ -399,17 +405,25 @@ function ScaphoidFractureViz({
       )}
       {injury.fixation === 'cast' && (
         <AnnotationLabel
-          anchor={center.clone().add(new THREE.Vector3(-0.012, 0.02, 0))}
+          anchor={center.clone().add(new THREE.Vector3(-0.018, 0.022, 0.004))}
           text="Thumb-spica cast"
           side="left"
           tone="info"
         />
       )}
-      {healAnim > 0.15 && (
+      {healAnim > 0.15 && injury.fixation !== 'cast' && (
         <AnnotationLabel
           anchor={center.clone().add(new THREE.Vector3(0, -0.022, 0.01))}
           text={`Healing · week ${injury.healingWeek} (callus)`}
           side="bottom"
+          tone="ok"
+        />
+      )}
+      {healAnim > 0.15 && injury.fixation === 'cast' && (
+        <AnnotationLabel
+          anchor={center.clone().add(new THREE.Vector3(0.016, -0.02, 0.01))}
+          text={`Healing · week ${injury.healingWeek}`}
+          side="right"
           tone="ok"
         />
       )}
@@ -539,28 +553,45 @@ function BoxersViz({
     }
   }, [bone])
 
+  // Run after HandModel pose apply so angulation is not overwritten
   useFrame(() => {
     if (!bone || !base.current) return
     bone.rotation.x = base.current.rx + bend
-    bone.rotation.z = base.current.rz + 0.08 * open
-  })
+    bone.rotation.z = base.current.rz + 0.12 * open
+  }, 1)
 
   if (!bone) return null
   const c = worldCenter(bone)
-  const neck = c.clone().add(new THREE.Vector3(0.002, -0.004, 0.012))
+  const neck = c.clone().add(new THREE.Vector3(-0.002, -0.006, 0.018))
+  // Explicit 40° chevron so the angulation reads even if bone axes are subtle
+  const shaftDir = new THREE.Vector3(0, 0, 0.016)
+  const headDir = new THREE.Vector3(0, -Math.sin(bend), Math.cos(bend) * 0.016)
 
   return (
     <group>
       <mesh position={neck}>
-        <sphereGeometry args={[0.006, 16, 12]} />
-        <meshBasicMaterial color="#e04040" transparent opacity={0.85} depthWrite={false} />
+        <sphereGeometry args={[0.007, 16, 12]} />
+        <meshBasicMaterial color="#e04040" transparent opacity={0.9} depthWrite={false} />
       </mesh>
-      <mesh position={neck} rotation={[Math.PI / 2, 0.2, 0]}>
-        <circleGeometry args={[0.01, 20]} />
-        <meshBasicMaterial color="#d04545" transparent opacity={0.7} side={THREE.DoubleSide} depthWrite={false} />
+      <mesh position={neck} rotation={[Math.PI / 2.2, 0.35, 0.1]}>
+        <torusGeometry args={[0.011, 0.0018, 8, 24]} />
+        <meshBasicMaterial color="#ff6060" transparent opacity={0.85} depthWrite={false} />
+      </mesh>
+      {/* Proximal shaft cue */}
+      <mesh position={neck.clone().add(shaftDir.clone().multiplyScalar(-0.7))} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.0032, 0.0032, 0.022, 10]} />
+        <meshStandardMaterial color="#e2d3b5" emissive="#b8955a" emissiveIntensity={0.25} />
+      </mesh>
+      {/* Distal head cue — clearly angulated */}
+      <mesh
+        position={neck.clone().add(headDir)}
+        rotation={[bend, 0.08, 0.05]}
+      >
+        <cylinderGeometry args={[0.0045, 0.003, 0.02, 10]} />
+        <meshStandardMaterial color="#e87060" emissive="#d04030" emissiveIntensity={0.55} />
       </mesh>
       <AnnotationLabel
-        anchor={neck.clone().add(new THREE.Vector3(-0.012, -0.008, 0.01))}
+        anchor={neck.clone().add(new THREE.Vector3(-0.014, -0.01, 0.012))}
         text={`Boxer's · 5th MC neck · ${ang}°`}
         side="left"
         tone="danger"
