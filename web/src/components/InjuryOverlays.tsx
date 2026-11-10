@@ -526,72 +526,73 @@ function BoxersViz({
   sceneTime: number
 }) {
   const bone = findBone(root, 'Metacarpal_5')
-  const base = useRef<{ rx: number; ry: number; rz: number } | null>(null)
+  const followRef = useRef<THREE.Group>(null)
   const open = 0.6 + 0.4 * smoothstep(0.15, 1.4, sceneTime)
-  const bend = ((ang * Math.PI) / 180) * 0.85 * open
+  const bend = ((ang * Math.PI) / 180) * 1.1 * open
+
+  const built = useMemo(() => {
+    if (!bone) return null
+    const geo = boneLocalGeometry(bone)
+    if (!geo?.boundingBox) return null
+    const bb = geo.boundingBox
+    const axis = longestAxis(bb)
+    const cut = bb.min[axis] + (bb.max[axis] - bb.min[axis]) * 0.78
+    return { ...splitGeometry(geo, cut, axis), cut, axis }
+  }, [bone])
 
   useEffect(() => {
     if (!bone) return
-    if (!base.current) {
-      base.current = { rx: bone.rotation.x, ry: bone.rotation.y, rz: bone.rotation.z }
-    }
-    for (const m of childMeshes(bone)) {
-      const mat = m.material as THREE.MeshStandardMaterial
-      if (mat?.isMeshStandardMaterial) {
-        mat.color = new THREE.Color('#e8a090')
-        mat.emissive = new THREE.Color('#c04030')
-        mat.emissiveIntensity = 0.45
-        mat.opacity = 1
-        mat.transparent = false
-        mat.needsUpdate = true
-      }
-    }
-    return () => {
-      if (base.current && bone) {
-        bone.rotation.set(base.current.rx, base.current.ry, base.current.rz)
-      }
-    }
+    setBoneMeshesVisible(bone, false)
+    return () => setBoneMeshesVisible(bone, true)
   }, [bone])
 
-  // Run after HandModel pose apply so angulation is not overwritten
-  useFrame(() => {
-    if (!bone || !base.current) return
-    bone.rotation.x = base.current.rx + bend
-    bone.rotation.z = base.current.rz + 0.12 * open
-  }, 1)
+  useFollowBone(bone, followRef)
 
-  if (!bone) return null
+  if (!bone || !built) return null
   const c = worldCenter(bone)
-  const neck = c.clone().add(new THREE.Vector3(-0.002, -0.006, 0.018))
-  // Explicit 40° chevron so the angulation reads even if bone axes are subtle
-  const shaftDir = new THREE.Vector3(0, 0, 0.016)
-  const headDir = new THREE.Vector3(0, -Math.sin(bend), Math.cos(bend) * 0.016)
 
   return (
     <group>
-      <mesh position={neck}>
-        <sphereGeometry args={[0.007, 16, 12]} />
-        <meshBasicMaterial color="#e04040" transparent opacity={0.9} depthWrite={false} />
-      </mesh>
-      <mesh position={neck} rotation={[Math.PI / 2.2, 0.35, 0.1]}>
-        <torusGeometry args={[0.011, 0.0018, 8, 24]} />
-        <meshBasicMaterial color="#ff6060" transparent opacity={0.85} depthWrite={false} />
-      </mesh>
-      {/* Proximal shaft cue */}
-      <mesh position={neck.clone().add(shaftDir.clone().multiplyScalar(-0.7))} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.0032, 0.0032, 0.022, 10]} />
-        <meshStandardMaterial color="#e2d3b5" emissive="#b8955a" emissiveIntensity={0.25} />
-      </mesh>
-      {/* Distal head cue — clearly angulated */}
-      <mesh
-        position={neck.clone().add(headDir)}
-        rotation={[bend, 0.08, 0.05]}
-      >
-        <cylinderGeometry args={[0.0045, 0.003, 0.02, 10]} />
-        <meshStandardMaterial color="#e87060" emissive="#d04030" emissiveIntensity={0.55} />
-      </mesh>
+      <group ref={followRef}>
+        <mesh geometry={built.prox} castShadow renderOrder={3}>
+          <meshStandardMaterial color="#e2d3b5" roughness={0.45} emissive="#b8955a" emissiveIntensity={0.2} />
+        </mesh>
+        <mesh
+          geometry={built.dist}
+          castShadow
+          renderOrder={3}
+          position={[0.003 * open, 0.014 * open, 0.006 * open]}
+          rotation={[bend, 0.08 * open, 0.2 * open]}
+        >
+          <meshStandardMaterial
+            color="#e87060"
+            emissive="#d04030"
+            emissiveIntensity={0.65}
+            roughness={0.38}
+          />
+        </mesh>
+        <mesh
+          position={
+            built.axis === 'x'
+              ? [built.cut, 0, 0]
+              : built.axis === 'y'
+                ? [0, built.cut, 0]
+                : [0, 0, built.cut]
+          }
+          rotation={
+            built.axis === 'x'
+              ? [0, 0, Math.PI / 2]
+              : built.axis === 'y'
+                ? [0, 0, 0]
+                : [Math.PI / 2, 0, 0]
+          }
+        >
+          <circleGeometry args={[0.011, 22]} />
+          <meshBasicMaterial color="#e04040" transparent opacity={0.9} side={THREE.DoubleSide} depthWrite={false} />
+        </mesh>
+      </group>
       <AnnotationLabel
-        anchor={neck.clone().add(new THREE.Vector3(-0.014, -0.01, 0.012))}
+        anchor={c.clone().add(new THREE.Vector3(-0.014, -0.01, 0.012))}
         text={`Boxer's · 5th MC neck · ${ang}°`}
         side="left"
         tone="danger"
