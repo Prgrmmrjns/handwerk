@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "distal_radius",
+  "title": "Distal radius fracture (Colles-type)",
+  "caption": "Dorsal displacement of the distal radial fragment after FOOSH.",
+  "camera": {
+    "view": "radial"
+  },
+  "highlights": [
+    "Radius"
+  ],
+  "dimOthers": true,
+  "pose": "rest",
+  "injuries": [
+    {
+      "type": "distal_radius_fracture",
+      "pattern": "colles",
+      "displaced": true,
+      "displacementMm": 4
+    }
+  ]
+}

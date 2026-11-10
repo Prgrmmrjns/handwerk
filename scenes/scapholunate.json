@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "id": "scapholunate",
+  "title": "Scapholunate ligament injury",
+  "caption": "Widened scapholunate interval (Terry Thomas sign).",
+  "camera": {
+    "view": "scaphoid"
+  },
+  "highlights": [
+    "Scaphoid",
+    "Lunate"
+  ],
+  "dimOthers": true,
+  "pose": "rest",
+  "injuries": [
+    {
+      "type": "scapholunate_injury",
+      "gapMm": 4.5
+    }
+  ]
+}
