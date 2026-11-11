@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
 
-def keystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
-def keystorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-def keyAlias = System.getenv("ANDROID_KEY_ALIAS")
-def keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+// Locals must NOT be named keyAlias / keyPassword / storePassword — those names
+// shadow the SigningConfig setters in Groovy DSL (`keyAlias keyAlias` → String.call()).
+def releaseKeystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+def releaseStorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+def releaseKeyAlias = System.getenv("ANDROID_KEY_ALIAS")
+def releaseKeyPassword = System.getenv("ANDROID_KEY_PASSWORD")
 def hasReleaseKey =
-    keystorePath != null &&
-    !keystorePath.isEmpty() &&
-    file(keystorePath).exists() &&
-    keystorePassword != null &&
-    keyAlias != null &&
-    keyPassword != null
+    releaseKeystorePath != null &&
+    !releaseKeystorePath.isEmpty() &&
+    file(releaseKeystorePath).exists() &&
+    releaseStorePassword != null &&
+    releaseKeyAlias != null &&
+    releaseKeyPassword != null
 
 // Prefer CI-provided version; otherwise keep a documented manual baseline.
 def ciVersionCode = System.getenv("ANDROID_VERSION_CODE")
@@ -36,10 +38,10 @@ android {
     signingConfigs {
         if (hasReleaseKey) {
             release {
-                storeFile file(keystorePath)
-                storePassword keystorePassword
-                keyAlias keyAlias
-                keyPassword keyPassword
+                storeFile = file(releaseKeystorePath)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
             }
         }
     }
@@ -49,7 +51,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (hasReleaseKey) {
-                signingConfig signingConfigs.release
+                signingConfig = signingConfigs.release
             }
         }
     }
