@@ -1,0 +1,14 @@
+Handwerk ist eine kleine, persönliche Lern-App: ein in Blender geriggtes rechtes Handskelett zum Orbitieren, Durchleuchten und Abspielen von Verletzungsszenen — entstanden nach Jonas’ eigener Skaphoidfraktur an der Uniklinik Aachen.
+
+Was du erkunden kannst
+• Dislozierte und nicht dislozierte Skaphoid-Taillenfrakturen, mit Tabatière und retrograder Blutversorgung
+• Herbert-Schraube und Daumen-Gips, mit einfacher Heilungs-Zeitleiste
+• Distale Radiusfraktur (Colles), Boxerfraktur (5. Mittelhandknochen) und skapholunäre Lücke
+• Klinische Kameras (dorsal, palmar, radial, ulnar, skaphoid) sowie Solid- / Röntgen- / Transparent-Modi
+• Kurze Anfrage tippen — der Offline-Parser auf dem Gerät funktioniert immer; online kann optional ein gehosteter Helfer die Szene verfeinern
+
+Touch: ein Finger orbitieren, Pinch zoomen, zwei Finger schwenken. Auf dem Handy öffnen sich Szenen aus einem Bottom-Sheet. Kernszenen funktionieren offline.
+
+Kein Medizinprodukt. Frakturspalten und Farben sind zur Verdeutlichung übertrieben. Nicht zur Diagnose oder Therapie. Meshes: BodyParts3D / Z-Anatomy (CC BY-SA).
+
+Datenschutz: keine Konten, keine Werbung, kein Analytics-SDK. https://handwerk-ruddy.vercel.app/privacy

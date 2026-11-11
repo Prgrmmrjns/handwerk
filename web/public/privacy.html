@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>Privacy Policy — Handwerk</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #070c16;
+        --text: #e8eef6;
+        --muted: #8fa3b8;
+        --bone: #e2d3b5;
+        --line: rgba(170, 198, 220, 0.16);
+        --accent: #3d8fad;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(900px 500px at 80% -10%, rgba(61, 143, 173, 0.16), transparent 55%),
+          linear-gradient(165deg, #050914 0%, #0b1220 50%, #101a2b 100%);
+        line-height: 1.55;
+        min-height: 100vh;
+      }
+      main {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+      }
+      .brand {
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-size: 2rem;
+        color: var(--bone);
+        margin: 0 0 0.25rem;
+        font-weight: 400;
+      }
+      .meta { color: var(--muted); font-size: 0.9rem; margin: 0 0 2rem; }
+      h1 {
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-weight: 400;
+        font-size: 1.75rem;
+        margin: 0 0 1rem;
+        color: var(--bone);
+      }
+      h2 {
+        font-size: 0.85rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 1.75rem 0 0.5rem;
+      }
+      p, li { color: var(--text); font-size: 0.98rem; }
+      a { color: var(--accent); }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1.1rem 1.2rem;
+        background: rgba(12, 20, 34, 0.72);
+      }
+      ul { padding-left: 1.2rem; }
+      .back { display: inline-block; margin-bottom: 1.5rem; font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="./">← Back to Handwerk</a>
+      <p class="brand">Handwerk</p>
+      <p class="meta">Privacy Policy · Effective 10 November 2026 · Last updated 10 November 2026</p>
+
+      <div class="card">
+        <h1>Privacy Policy</h1>
+        <p>
+          Handwerk is an educational 3D hand-anatomy and injury visualisation app
+          (web and Android) by Jonas. It has <strong>no accounts</strong>,
+          <strong>no analytics SDKs</strong>, and <strong>no advertising identifiers</strong>.
+        </p>
+
+        <h2>What the app does on your device</h2>
+        <ul>
+          <li>Loads a local 3D hand model and scene presets stored in the app / website bundle.</li>
+          <li>Keeps UI state (selected preset, playhead, camera) in memory on your device only.</li>
+          <li>Does not require you to sign in.</li>
+        </ul>
+
+        <h2>Optional network request (natural-language parse)</h2>
+        <p>
+          If you type a free-text request (for example “displaced scaphoid with Herbert screw”)
+          and tap <em>Show</em>, Handwerk first runs an <strong>on-device offline rule parser</strong>.
+          When a network connection is available, the app may also send that request text to
+          <code>POST https://handwerk-ruddy.vercel.app/api/parse</code> so an optional
+          language-model helper can refine the scene. If that call fails or you are offline,
+          the app keeps the offline result.
+        </p>
+        <p>
+          The request body contains only the text you typed (and no account ID).
+          Server logs on the hosting provider (Vercel) may retain standard HTTP metadata
+          (timestamp, IP address, user agent) as part of normal infrastructure logging.
+          Do not enter names, medical record numbers, or other personal health identifiers
+          into the request field.
+        </p>
+
+        <h2>What we do not collect</h2>
+        <ul>
+          <li>No name, email, or profile.</li>
+          <li>No location, contacts, photos, or microphone.</li>
+          <li>No crash/analytics SDKs (Firebase Analytics, Crashlytics, etc.).</li>
+          <li>No advertising or cross-app tracking.</li>
+        </ul>
+
+        <h2>Children</h2>
+        <p>
+          Handwerk is intended for adults studying anatomy or trauma care.
+          It is not directed at children under 13.
+        </p>
+
+        <h2>Medical disclaimer</h2>
+        <p>
+          Handwerk is for education only. It is <strong>not</strong> a medical device,
+          not a diagnostic tool, and not clinical advice. Fracture geometry is illustrative.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Questions about this policy: open an issue on
+          <a href="https://github.com/Prgrmmrjns/handwerk">github.com/Prgrmmrjns/handwerk</a>
+          or contact the developer via the GitHub profile linked there (Jonas / Prgrmmrjns).
+        </p>
+
+        <h2>Changes</h2>
+        <p>
+          If this policy changes in a material way, the “Last updated” date above will change
+          and the new version will be published at
+          <a href="https://handwerk-ruddy.vercel.app/privacy">https://handwerk-ruddy.vercel.app/privacy</a>.
+        </p>
+      </div>
+    </main>
+  </body>
+</html>
